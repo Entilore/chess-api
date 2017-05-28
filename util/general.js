@@ -11,6 +11,13 @@ let assertInstanceOf = function (obj, clazz) {
 	if (!isInstanceOf) throw new TypeError(`${obj.toString()} is not an instance of ${clazz.name}`);
 };
 
-let assertTrue = function(condition){
+let assertTrue = function (condition) {
 	assert(condition);
-}
+};
+
+let isInMap = function(i, j = -1){
+	if (j!== -1) return isInMap(i) && isInMap(j);
+	return i >= 0 && i < 8;
+};
+
+export {assertInstanceOf, assertTrue, isInMap};
