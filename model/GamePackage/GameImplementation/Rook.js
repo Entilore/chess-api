@@ -7,12 +7,10 @@ let instance;
 
 export class Rook extends Piece {
 	constructor(isWhite) {
-		if (instance) return instance;
 		super(isWhite);
 
 		this.pathes = {};
-		instance = this;
-	};
+	}
 
 	isCellAccessible(xFrom, yFrom, xTo, yTo){
 		// either same column, either same line, but not both

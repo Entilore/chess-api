@@ -8,17 +8,10 @@ let blackInstance;
 
 export class Pawn extends Piece {
 	constructor(isWhite) {
-		if (isWhite && whiteInstance) return whiteInstance;
-		if (!isWhite && blackInstance) return blackInstance;
 		super(isWhite);
 
 		this.isWhite = isWhite;
-
-		if (isWhite)
-			whiteInstance = this;
-		else
-			blackInstance = this;
-	};
+	}
 
 	_moveForward(n, times = 1) {
 		if (this.isWhite) return n + times;

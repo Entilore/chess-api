@@ -9,12 +9,9 @@ let instance;
 
 export class King extends Piece {
 	constructor(isWhite) {
-		if (instance) return instance;
 		super(isWhite);
-
 		this.pathes = {};
-		instance = this;
-	};
+	}
 
 	isCellAccessible(xFrom, yFrom, xTo, yTo) {
 		// cell is accessible if 'to' is adjacent

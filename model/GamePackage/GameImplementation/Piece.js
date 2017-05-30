@@ -2,10 +2,40 @@
  * Created by thareau on 28/05/17.
  */
 
-import {isInMap} from '../../../util/general';
+import {assertInstanceOf, isInMap} from '../../../util/general';
 import {IPiece} from '../IPiece';
-export class Piece extends IPiece {
-	constructor(isWhite) {super(isWhite);};
+
+let instance;
+class PieceFactory {
+	constructor() {
+		if (instance)
+			return instance;
+		this.pieceClasses = {};
+		instance = this;
+	}
+
+	static getInstance() {
+		if (instance) instance = new PieceFactory();
+		return instance
+	}
+
+	getInstance(clazz, isWhite) {
+		let key = [clazz.name, isWhite];
+		if (!this.pieceClasses[key]) this.pieceClasses[key] = new clazz(isWhite);
+		let obj = this.pieceClasses[key];
+		try {
+			assertInstanceOf(obj, Piece);
+		} catch (e) {
+			delete this.pieceClasses[key];
+			throw e;
+		}
+		return this.pieceClasses[key];
+	}
+
+}
+
+class Piece extends IPiece {
+	constructor(isWhite) {super(isWhite);}
 
 
 	isCellAccessible(xFrom, yFrom, xTo, yTo) {
@@ -22,3 +52,5 @@ export class Piece extends IPiece {
 		}
 	}
 }
+
+export {Piece, PieceFactory}

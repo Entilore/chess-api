@@ -3,16 +3,12 @@
  */
 
 import {Piece} from './Piece';
-let instance;
 
 export class Bishop extends Piece {
 	constructor(isWhite) {
-		if (instance) return instance;
 		super(isWhite);
-
 		this.pathes = {};
-		instance = this;
-	};
+	}
 
 	isCellAccessible(xFrom, yFrom, xTo, yTo) {
 		// cannot be on same line or column

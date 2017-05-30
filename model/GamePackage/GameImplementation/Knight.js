@@ -9,12 +9,9 @@ let instance;
 
 export class Knight extends Piece {
 	constructor(isWhite) {
-		if (instance) return instance;
 		super(isWhite);
-
 		this.pathes = {};
-		instance = this;
-	};
+	}
 
 	isCellAccessible(xFrom, yFrom, xTo, yTo) {
 		// manhattan distance is 3 and not on same line/column

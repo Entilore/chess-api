@@ -9,12 +9,9 @@ let instance;
 
 export class Queen extends Piece {
 	constructor(isWhite) {
-		if (instance) return instance;
 		super(isWhite);
-
 		this.pathes = {};
-		instance = this;
-	};
+	}
 
 	isCellAccessible(xFrom, yFrom, xTo, yTo) {
 		// a queen is a rook and a bishop...

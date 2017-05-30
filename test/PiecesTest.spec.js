@@ -1,12 +1,14 @@
 import {describe, it} from 'mocha';
 import {Pawn} from '../model/GamePackage/GameImplementation/Pawn';
+import {PieceFactory} from '../model/GamePackage/GameImplementation/Piece';
 
 let chai = require('chai');
 chai.should();
 
 describe('The pieces functions', function () {
-	let whitePawn = new Pawn(true);
-	let blackPawn = new Pawn(false);
+	let pf = new PieceFactory();
+	let whitePawn = pf.getInstance(Pawn, true);
+	let blackPawn = pf.getInstance(Pawn, false);
 	describe('Pawn', function () {
 		describe('isCellAccessible', function () {
 			it('should return true if the cell is accessible', function () {

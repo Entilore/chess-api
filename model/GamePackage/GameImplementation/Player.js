@@ -8,6 +8,7 @@ import {Knight} from './Knight';
 import {Bishop} from './Bishop';
 import {King} from './King';
 import {Queen} from './Queen';
+import {PieceFactory} from './Piece';
 
 
 export class Player extends IPlayer {
@@ -19,6 +20,7 @@ export class Player extends IPlayer {
 	}
 
 	setupPieces(isWhite) {
+		const pf = new PieceFactory();
 		let pawnsLine = 6;
 		let figureLine = 7;
 		if (isWhite) {
@@ -28,19 +30,19 @@ export class Player extends IPlayer {
 
 		//add pawns first (because easier)
 		for (let i = 0; i < 8; i++) {
-			this.pieces[[i, pawnsLine]] = new Pawn(isWhite);
+			this.pieces[[i, pawnsLine]] = pf.getInstance(Pawn, isWhite);
 		}
 
 		// then Rook, Knight and Bishop => Roknibi
-		let roknibi = [() => new Rook(isWhite), () => new Knight(isWhite), () => new Bishop(isWhite)];
+		let roknibi = [() => pf.getInstance(Rook, isWhite), () => pf.getInstance(Knight, isWhite), () => pf.getInstance(Bishop, isWhite)];
 
 		for (let i = 0; i < roknibi.length; i++) {
 			this.pieces[[i, figureLine]] = roknibi[i]();
 			this.pieces[[7 - i, figureLine]] = roknibi[i]();
 		}
 
-		this.pieces[[3, figureLine]] = new Queen(isWhite);
-		this.pieces[[4, figureLine]] = new King(isWhite);
+		this.pieces[[3, figureLine]] = pf.getInstance(Queen, isWhite);
+		this.pieces[[4, figureLine]] = pf.getInstance(King, isWhite);
 	}
 
 	getPiece(x, y){
