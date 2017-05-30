@@ -2,18 +2,29 @@
  * Created by thareau on 28/05/17.
  */
 
-import {isInMap} from '../../../util/general';
 import {Piece} from './Piece';
 let instance;
 
 export class Bishop extends Piece {
-	constructor() {
+	constructor(isWhite) {
 		if (instance) return instance;
-		super();
+		super(isWhite);
 
 		this.pathes = {};
 		instance = this;
 	};
+
+	isCellAccessible(xFrom, yFrom, xTo, yTo) {
+		// cannot be on same line or column
+		if (xFrom === xTo || yFrom === yTo) return false;
+
+		// |slope| === 0.5
+		// | (yFrom - yTo) / (xFrom - xTo) | === 0.5
+		// |yFrom - yTo| / |xFrom - xTo| === 0.5
+		// 2*|yFrom - yTo|  === |xFrom - xTo|
+
+		return 2 * Math.abs(yFrom - yTo) === Math.abs(xFrom - xTo);
+	}
 
 	getAccessibleCells(x, y) {
 		if (this.pathes[[x, y]])

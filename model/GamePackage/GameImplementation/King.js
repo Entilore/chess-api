@@ -3,17 +3,23 @@
  */
 
 import {isInMap} from '../../../util/general';
+import {adjacentDistance} from '../../../util/map';
+import {Piece} from './Piece';
 let instance;
 
 export class King extends Piece {
-	constructor() {
+	constructor(isWhite) {
 		if (instance) return instance;
-		super();
+		super(isWhite);
 
 		this.pathes = {};
 		instance = this;
 	};
 
+	isCellAccessible(xFrom, yFrom, xTo, yTo) {
+		// cell is accessible if 'to' is adjacent
+		return adjacentDistance(xFrom, yFrom, xTo, yTo) === 1;
+	}
 
 	static _computeCells(n) {
 		for (let i of [-1, 0, 1]) {

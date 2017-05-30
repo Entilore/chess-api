@@ -3,8 +3,9 @@
  */
 
 import {isInMap} from '../../../util/general';
+import {IPiece} from '../IPiece';
 export class Piece extends IPiece {
-	constructor() {super();};
+	constructor(isWhite) {super(isWhite);};
 
 
 	isCellAccessible(xFrom, yFrom, xTo, yTo) {

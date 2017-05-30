@@ -3,8 +3,10 @@
  */
 
 import {assertInstanceOf} from '../../util/general';
-class IPiece {
-	constructor() {};
+export class IPiece {
+	constructor(isWhite) {
+		assertInstanceOf(isWhite, Boolean);
+	};
 
 	getPath(xFrom, yFrom, xTo, yTo) {
 		assertInstanceOf(xFrom, Number);

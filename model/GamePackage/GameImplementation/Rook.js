@@ -3,17 +3,21 @@
  */
 
 import {Piece} from './Piece';
-import {isInMap} from '../../../util/general';
 let instance;
 
 export class Rook extends Piece {
-	constructor() {
+	constructor(isWhite) {
 		if (instance) return instance;
-		super();
+		super(isWhite);
 
 		this.pathes = {};
 		instance = this;
 	};
+
+	isCellAccessible(xFrom, yFrom, xTo, yTo){
+		// either same column, either same line, but not both
+		return (xFrom === xTo) !== (yFrom === yTo);
+	}
 
 	getAccessibleCells(x, y) {
 		if (this.pathes[[x, y]])

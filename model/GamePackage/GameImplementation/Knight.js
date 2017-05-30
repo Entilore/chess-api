@@ -3,19 +3,26 @@
  */
 
 import {isInMap} from '../../../util/general';
+import {Piece} from './Piece';
+import {manhattanDistance} from '../../../util/map';
 let instance;
 
-export class Knight extends IPiece {
-	constructor() {
+export class Knight extends Piece {
+	constructor(isWhite) {
 		if (instance) return instance;
-		super();
+		super(isWhite);
 
 		this.pathes = {};
 		instance = this;
 	};
 
+	isCellAccessible(xFrom, yFrom, xTo, yTo) {
+		// manhattan distance is 3 and not on same line/column
+		return (xFrom !== xTo && yFrom !== yTo) && manhattanDistance(xFrom, yFrom, xTo, yTo) === 3;
+	}
+
 	getAccessibleCells(x, y) {
-		if(this.pathes[[x,y]])return this.pathes[x,y];
+		if (this.pathes[[x, y]])return this.pathes[[x, y]];
 
 		super.getAccessibleCells(x, y);
 
@@ -35,7 +42,7 @@ export class Knight extends IPiece {
 				cells.push([i, j]);
 		}
 
-		this.pathes[x,y] = cells;
+		this.pathes[[x, y]] = cells;
 		return cells;
 	}
 

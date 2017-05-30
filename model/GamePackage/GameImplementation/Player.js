@@ -28,19 +28,19 @@ export class Player extends IPlayer {
 
 		//add pawns first (because easier)
 		for (let i = 0; i < 8; i++) {
-			this.pieces[[i, pawnsLine]] = new Pawn();
+			this.pieces[[i, pawnsLine]] = new Pawn(isWhite);
 		}
 
 		// then Rook, Knight and Bishop => Roknibi
-		let roknibi = [() => new Rook(), () => new Knight(), () => new Bishop()];
+		let roknibi = [() => new Rook(isWhite), () => new Knight(isWhite), () => new Bishop(isWhite)];
 
 		for (let i = 0; i < roknibi.length; i++) {
 			this.pieces[[i, figureLine]] = roknibi[i]();
 			this.pieces[[7 - i, figureLine]] = roknibi[i]();
 		}
 
-		this.pieces[[3, figureLine]] = new Queen();
-		this.pieces[[4, figureLine]] = new King();
+		this.pieces[[3, figureLine]] = new Queen(isWhite);
+		this.pieces[[4, figureLine]] = new King(isWhite);
 	}
 
 	getPiece(x, y){
