@@ -5,4 +5,5 @@ node_js:
 cache:
   directories:
     - "node_modules"
-
+env:
+  CODECLIMATE_REPO_TOKEN: 4b8d9cd584496791c66bcfbe3fbbfc4c42ae9ea4bee1c35cec7f02015c1be5f5
