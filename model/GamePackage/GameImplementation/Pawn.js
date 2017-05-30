@@ -20,17 +20,31 @@ export class Pawn extends Piece {
 			blackInstance = this;
 	};
 
+	_moveForward(n, times = 1) {
+		if (this.isWhite) return n + times;
+		return n - times;
+	}
+
+	_beginingLine() {
+		if (this.isWhite) return 1
+		return 6;
+	}
+
+
 	isCellAccessible(xFrom, yFrom, xTo, yTo) {
-		if (this.isWhite)
-			return yTo === yFrom + 1;
-		return yTo === yFrom - 1;
+		if (xFrom !== xTo) return false;
+		if (yFrom === this._beginingLine() && this._moveForward(yFrom, 2) === yTo) return true;
+		return yTo === this._moveForward(yFrom);
 	}
 
 	getAccessibleCells(x, y) {
 		// a queen is a rook and a bishop...
-		let nextY = y - 1;
-		if (this.isWhite) nextY = y + 1;
-		if (isInMap(nextY)) return [[x, nextY]];
-		return [];
+		let ret = []
+		let nextY = this._moveForward(y);
+		if (isInMap(nextY)) ret.push([x, nextY]);
+
+		if (y === this._beginingLine()) ret.push([x, this._moveForward(y, 2)]);
+
+		return ret;
 	}
 }
