@@ -1,0 +1,58 @@
+white:Actor
+black:Actor
+app:Node
+game:Game
+whitePlayer:Player[x]
+blackPlayer:Player[x]
+piece:Piece[x]
+/rf:RoundFactory[v]
+/round:Round[v]
+
+white:app.move(from, to)
+app:game.move(from, to)
+game:game.checkMoveIsPossible(from, to)
+*1 game
+first: check destination is reachable  
+*1
+game:game.isTileReachable(to)
+game:piece=game.retrievePiece(to)
+game[1]:assertIsBlackOrNull
+game[1]:
+*2 game
+second: check no one in path   
+*2
+game:game.checkPathIsFree
+game:piece=whitePlayer.retrieve(from)
+game:path=piece.getPath(from, to)
+piece:piece.isCellAccessible(from, to)
+piece:computePath(from, to)
+game:
+[c:loop tile in path[:-1]]
+game:piece=game.retrievePiece(tile)
+game:whitePlayer.retrievePiece(tile)
+game:blackPlayer.retrievePiece(tile)
+game[1]:assertNull(piece)
+[/c]
+game[1]:
+game[1]:
+*3 game
+third: do move 
+*3
+game:rf.new
+game:rf.setMove(from, to)
+game:rf.setGame(this)
+game:round=rf.create()
+rf:round=round.new(from, to)
+round:moved=piece, from, to
+round:capturedPiece=game.getPiece(to)
+round:captured=captured, to
+game:
+game:setState(round)
+game:chessed=whitePlayer.isChessed()
+[c:alt chessed]
+game:game.rollback(1)
+game[1]:throw chessed exception
+--else 
+game:game.save()
+game[1]:return null, this
+[/c]

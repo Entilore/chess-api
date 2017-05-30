@@ -5,7 +5,7 @@
 import {isInMap} from '../../../util/general';
 let instance;
 
-class Knight extends IPiece {
+export class Knight extends IPiece {
 	constructor() {
 		if (instance) return instance;
 		super();

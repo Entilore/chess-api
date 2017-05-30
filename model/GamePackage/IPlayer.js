@@ -3,6 +3,7 @@
  */
 export class IPlayer{
 	constructor(user){
-		this.user = user;
 	};
+
+	setupPieces(isWhite){};
 }

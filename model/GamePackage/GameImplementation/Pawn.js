@@ -4,7 +4,7 @@
 import {isInMap} from '../../../util/general';
 let instance;
 
-class Pawn extends Piece {
+export class Pawn extends Piece {
 	constructor() {
 		if (instance) return instance;
 		super();

@@ -3,12 +3,13 @@
  */
 
 import {IPlayer} from './IPlayer';
+import {assertInstanceOf} from '../../util/general';
 export class IGame {
 	constructor(player1, player2) {
 		assertInstanceOf(player1, IPlayer);
 		assertInstanceOf(player2, IPlayer);
-		this.player1 = player1;
-		this.player2 = player2;
+		this.whitePlayer = player1;
+		this.blackPlayer = player2;
 		this.rounds = [];
 		this.state = null;
 	};
@@ -27,13 +28,19 @@ export class IGame {
 		assertInstanceOf(destinationY, Number);
 	};
 
-	undo(n) {
-		assertInstanceOf(n, Number)
-	};
 
-	redo(n) {
-		assertInstanceOf(n, Number)
-	};
+	retrievePiece(x, y) {
+		assertInstanceOf(x, Number);
+		assertInstanceOf(y, Number);
+	}
+
+	setState(state) {
+		assertInstanceOf(state, IRound);
+	}
+
+	rollback(n) {
+		assertInstanceOf(n, Number);
+	}
 }
 
 

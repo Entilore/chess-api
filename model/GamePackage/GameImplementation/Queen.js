@@ -7,7 +7,7 @@ import {Bishop} from './Bishop';
 import {Piece} from './Piece';
 let instance;
 
-class King extends Piece {
+export class Queen extends Piece {
 	constructor() {
 		if (instance) return instance;
 		super();
