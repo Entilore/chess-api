@@ -19,10 +19,8 @@
   },
   "scripts": {
     "start": "node ./bin/www",
-    "build": "babel index.js -d src",
     "test": "npm run test-unit",
-    "test-unit": "cross-env NODE_ENV=test nyc --all mocha test/*.spec.js",
-    "prepublish": "npm run build"
+    "test-unit": "cross-env NODE_ENV=test nyc --all mocha test/*.spec.js"
   },
   "dependencies": {
     "body-parser": "~1.17.1",
