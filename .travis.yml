@@ -5,10 +5,7 @@ node_js:
 cache:
   directories:
     - "node_modules"
-addons:
-  code_climate:
-    repo_token: 4b8d9cd584496791c66bcfbe3fbbfc4c42ae9ea4bee1c35cec7f02015c1be5f5
 
 after_success:
   - npm install -g codeclimate-test-reporter
-  - codeclimate-test-reporter < lcov.info
+  - codeclimate-test-reporter < coverage/lcov.info
