@@ -18,7 +18,7 @@ export class King extends Piece {
 		return adjacentDistance(xFrom, yFrom, xTo, yTo) === 1;
 	}
 
-	static _computeCells(n) {
+	static * _computeCells(n) {
 		for (let i of [-1, 0, 1]) {
 			let v = i + n;
 			if (isInMap(v)) yield v;
