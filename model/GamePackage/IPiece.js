@@ -13,7 +13,6 @@ export class IPiece {
 		assertInstanceOf(yFrom, Number);
 		assertInstanceOf(xTo, Number);
 		assertInstanceOf(yTo, Number);
-
 	}
 
 	isCellAccessible(xFrom, yFrom, xTo, yTo) {

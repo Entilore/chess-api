@@ -1,5 +1,3 @@
-import * as assert from 'assert';
-
 let assertInstanceOf = function (obj, clazz) {
 	let isInstanceOf = true;
 	if (typeof(obj) === 'object') {
@@ -11,12 +9,12 @@ let assertInstanceOf = function (obj, clazz) {
 	if (!isInstanceOf) throw new TypeError(`${obj.toString()} is not an instance of ${clazz.name}`);
 };
 
-let assertTrue = function (condition) {
-	assert(condition);
+let assertTrue = function (condition, message = 'Failure') {
+	if (!condition) throw new Error(message);
 };
 
-let isInMap = function(i, j = -1){
-	if (j!== -1) return isInMap(i) && isInMap(j);
+let isInMap = function (i, j = -1) {
+	if (j !== -1) return isInMap(i) && isInMap(j);
 	return i >= 0 && i < 8;
 };
 

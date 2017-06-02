@@ -3,27 +3,35 @@
  */
 
 import {assertInstanceOf, assertTrue} from '../../util/general';
+import {Player} from './GameImplementation/Player';
+import {Game} from './GameImplementation/Game';
+import {GameConstructionError} from './errors/GameErrors';
 
-let gameClass = null;
-let playerClass = null;
+let gameClass = Game;
+let playerClass = Player;
 
 let users = [];
 
 let addPlayer = function (user) {
 	//assertInstanceOf(user, User)
-	assertTrue(users.length < 3);
 	users.push(user);
-	return users.length === 2;
+	return users.length > 1;
 };
 
 let createGame = function () {
-	let player0 = new playerClass(users[0]);
-	let player1 = new playerClass(users[1]);
+
+	if(users.length < 2)
+		throw new GameConstructionError("Not enough player to start game");
+	let player0 = new playerClass(users.pop());
+	let player1 = new playerClass(users.pop());
 	let game = new gameClass(player0, player1);
 	game.save();
 
-	users = [];
 	return game;
 };
 
-export {addPlayer, createGame};
+let clear = function () {
+	users = [];
+};
+
+export {addPlayer, createGame, clear};

@@ -15,7 +15,7 @@ class PieceFactory {
 	}
 
 	static getInstance() {
-		if (instance) instance = new PieceFactory();
+		if (!instance) instance = new PieceFactory();
 		return instance
 	}
 
