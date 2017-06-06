@@ -2,10 +2,10 @@
  * Created by thareau on 28/05/17.
  */
 
-import {isInMap} from '../../../util/general';
-import {adjacentDistance} from '../../../util/map';
+import {isInMap} from '../../../../util/general';
+import {adjacentDistance} from '../../../../util/map';
 import {Piece} from './Piece';
-import {Game} from './Game';
+import {Game} from '../Game';
 let instance;
 
 export class King extends Piece {

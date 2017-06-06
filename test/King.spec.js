@@ -4,10 +4,10 @@
 
 import { getEmptyGame, getGameWithConfiguration } from './testUtility.spec'
 import { it } from 'mocha'
-import { PieceFactory } from '../model/GamePackage/GameImplementation/Piece'
-import { King } from '../model/GamePackage/GameImplementation/King'
-import { Pawn } from '../model/GamePackage/GameImplementation/Pawn'
-import { Rook } from '../model/GamePackage/GameImplementation/Rook'
+import { PieceFactory } from '../model/GamePackage/GameImplementation/Piece/Piece'
+import { King } from '../model/GamePackage/GameImplementation/Piece/King'
+import { Pawn } from '../model/GamePackage/GameImplementation/Piece/Pawn'
+import { Rook } from '../model/GamePackage/GameImplementation/Piece/Rook'
 let pf = PieceFactory.getInstance()
 
 export class KingTest {

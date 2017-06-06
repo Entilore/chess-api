@@ -3,9 +3,9 @@
  */
 
 import {getEmptyGame, getGameWithConfiguration} from './testUtility.spec';
-import {Pawn} from '../model/GamePackage/GameImplementation/Pawn';
+import {Pawn} from '../model/GamePackage/GameImplementation/Piece/Pawn';
 import {it} from 'mocha';
-import {PieceFactory} from '../model/GamePackage/GameImplementation/Piece';
+import {PieceFactory} from '../model/GamePackage/GameImplementation/Piece/Piece';
 let pf = PieceFactory.getInstance();
 
 export class PawnTest {

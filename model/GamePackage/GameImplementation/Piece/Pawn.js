@@ -1,9 +1,9 @@
 /**
  * Created by thareau on 28/05/17.
  */
-import {isInMap} from '../../../util/general';
+import {isInMap} from '../../../../util/general';
 import {Piece} from './Piece';
-import {NotOnBoardError} from '../errors/GameErrors';
+import {NotOnBoardError} from '../../errors/GameErrors';
 let whiteInstance;
 let blackInstance;
 

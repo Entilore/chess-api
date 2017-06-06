@@ -2,13 +2,13 @@
  * Created by thareau on 29/05/17.
  */
 import { IPlayer } from '../IPlayer'
-import { Pawn } from './Pawn'
-import { Rook } from './Rook'
-import { Knight } from './Knight'
-import { Bishop } from './Bishop'
-import { King } from './King'
-import { Queen } from './Queen'
-import { PieceFactory } from './Piece'
+import { Pawn } from './Piece/Pawn'
+import { Rook } from './Piece/Rook'
+import { Knight } from './Piece/Knight'
+import { Bishop } from './Piece/Bishop'
+import { King } from './Piece/King'
+import { Queen } from './Piece/Queen'
+import { PieceFactory } from './Piece/Piece'
 import { Game } from './Game'
 
 export class Player extends IPlayer {

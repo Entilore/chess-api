@@ -2,7 +2,7 @@
  * Created by thareau on 29/05/17.
  */
 import { IGame } from '../IGame'
-import { IPlayer } from '../IPlayer'
+import { Tile } from './Tile'
 
 export class Game extends IGame {
 	constructor (player1, player2) {
@@ -22,9 +22,8 @@ export class Game extends IGame {
 
 	static get QUEEN_SIDE_CASTLING () {return 2}
 
-
 	getPiece (x, y) {
-		let map = this.map()
+		let map = this.map
 		if (map[x] && map[x][y]) return map[x][y]
 		return null
 	}
@@ -39,13 +38,25 @@ export class Game extends IGame {
 		return piecesMap
 	}
 
-	map () {
+	get map () {
 		// load saved map, if state !=, rebuild
-		// if the state does not exists, rebuild map
 		let [map, state] = this._map
-		if (this.state && this.state === state) return map
+		if (!this.state || this.state !== state) {
+			map = this._build_map()
+			this._map = [map, this.state]
+		}
 
-		map = []
+		return map
+	}
+
+	/**
+	 * create a new map containing all the pieces
+	 * @returns {Array<Array>}
+	 * @private
+	 */
+	_build_map () {
+
+		let map = []
 		for (let i = 0; i < 8; i++) {
 			for (let j = 0; j < 8; j++) {
 				let piece = this.whitePlayer.getPiece(i, j) || this.blackPlayer.getPiece(i, j)
@@ -55,31 +66,35 @@ export class Game extends IGame {
 				}
 			}
 		}
-		this._map = [map, this.state]
 		return map
 	}
 
 	isCastlingPossible (isWhite, side) {
 		if (side !== Game.KING_SIDE_CASTLING && side !== Game.QUEEN_SIDE_CASTLING)
 			throw new Error('Unknown side')
+
 		let activePlayer = this.getPlayer(isWhite)
 
+		let endColumn = 4
+		let line = activePlayer.figureLine
 		let beginColumn
-		let endColumn
 		if (side === Game.QUEEN_SIDE_CASTLING && activePlayer.queenSideCastlingIsPossible) {
-			beginColumn = 1
-			endColumn = 3
+			beginColumn = 0
 		}
 		else if (side === Game.KING_SIDE_CASTLING && activePlayer.kingSideCastlingIsPossible) {
-			beginColumn = 6
-			endColumn = 5
+			beginColumn = 7
 		}
+		else
+			return false
 
-		if (beginColumn === undefined) return false
+		return this.isTileBetween(beginColumn, line, endColumn, line)
+	}
 
-		let line = activePlayer.figureLine
+	isTileBetween (xFrom, yFrom, xTo, yTo) {
+		let [beginX, beginY] = Tile.firstTileInDirectionOf(xFrom, yFrom, xTo, yTo)
+		let [endX, endY] = Tile.firstTileInDirectionOf(xTo, yTo, xFrom, yFrom)
 
-		for (let [i, j] of Game.getTilesBetween(beginColumn, line, endColumn, line)) {
+		for (let [i, j] of Game.getTilesBetween(beginX, beginY, endX, endY)) {
 			if (this.getPiece(i, j)) {
 				return false
 			}

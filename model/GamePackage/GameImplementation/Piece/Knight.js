@@ -2,9 +2,9 @@
  * Created by thareau on 28/05/17.
  */
 
-import {isInMap} from '../../../util/general';
+import {isInMap} from '../../../../util/general';
 import {Piece} from './Piece';
-import {manhattanDistance} from '../../../util/map';
+import {manhattanDistance} from '../../../../util/map';
 let instance;
 
 export class Knight extends Piece {
