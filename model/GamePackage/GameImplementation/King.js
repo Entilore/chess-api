@@ -5,6 +5,7 @@
 import {isInMap} from '../../../util/general';
 import {adjacentDistance} from '../../../util/map';
 import {Piece} from './Piece';
+import {Game} from './Game';
 let instance;
 
 export class King extends Piece {
@@ -13,9 +14,28 @@ export class King extends Piece {
 		this.pathes = {};
 	}
 
-	isCellAccessible(xFrom, yFrom, xTo, yTo) {
-		// cell is accessible if 'to' is adjacent
-		return adjacentDistance(xFrom, yFrom, xTo, yTo) === 1;
+	isCellAccessible(xFrom, yFrom, xTo, yTo, game) {
+		super.isCellAccessible(xFrom, yFrom, xTo, yTo, game);
+		if (adjacentDistance(xFrom, yFrom, xTo, yTo) === 1) return true;
+
+
+		if (this.isInitialCell(xFrom, yFrom) && yTo === this._figureLine) {
+			// queen side castling
+			let side = -1;
+			if (xTo === 2) {
+				side = Game.QUEEN_SIDE_CASTLING;
+			}
+			if (xTo === 6) {
+				// king side castling
+				side = Game.KING_SIDE_CASTLING;
+			}
+
+			if (side !== -1) {
+				return game.isCastlingPossible(this.isWhite, side);
+			}
+		}
+
+		return false;
 	}
 
 	static * _computeCells(n) {
@@ -23,6 +43,11 @@ export class King extends Piece {
 			let v = i + n;
 			if (isInMap(v)) yield v;
 		}
+	}
+
+	* getInitialPosition() {
+
+		yield [4, this._figureLine];
 	}
 
 	getAccessibleCells(x, y) {
@@ -44,5 +69,10 @@ export class King extends Piece {
 
 		this.pathes[[x, y]] = cells;
 		return cells;
+	}
+
+	isInitialCell(x, y) {
+		let [initialX, initialY] = this.getInitialPosition().next().value;
+		return x === initialX && y === initialY
 	}
 }

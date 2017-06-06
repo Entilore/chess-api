@@ -1,11 +1,12 @@
 import {describe, it} from 'mocha';
 import {PawnTest} from './Pawn.spec';
+import {KingTest} from './King.spec';
 
 let chai = require('chai');
 chai.should();
 
 describe('The pieces functions', function () {
-	let pieces = [new PawnTest()];
+	let pieces = [new PawnTest(), new KingTest()];
 	for (let testObj of pieces) {
 		describe(testObj.testedPiece, function () {
 			describe('isCellAccessible', function () {
@@ -15,6 +16,10 @@ describe('The pieces functions', function () {
 
 				it('should return false if the cell is not accessible', function () {
 					testObj.cellIsNotAccessibleTest();
+				});
+
+				it('should return false if the cell is not on the board', function () {
+					testObj.cellIsOutOfTheBoard();
 				});
 
 				testObj.specialCaseTest();

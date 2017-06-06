@@ -35,6 +35,14 @@ export class PawnTest {
 		this.blackPawn.isCellAccessible(5, 2, 0, 0, this.emptyGame).should.be.false;
 	}
 
+	cellIsOutOfTheBoard(){
+		(() => this.whitePawn.isCellAccessible(7, 7, 7, 8, this.emptyGame)).should.throw();
+		(() => this.whitePawn.isCellAccessible(1, 7, 1, 8, this.emptyGame)).should.throw();
+
+		(() => this.blackPawn.isCellAccessible(7, 8, 7, 7, this.emptyGame)).should.throw();
+		(() => this.blackPawn.isCellAccessible(1, 8, 1, 7, this.emptyGame)).should.throw();
+	}
+
 	specialCaseTest() {
 		let self = this;
 		it('should accept the first double move forward', function () {

@@ -4,6 +4,7 @@
 
 import {assertInstanceOf, isInMap} from '../../../util/general';
 import {IPiece} from '../IPiece';
+import {NotOnBoardError} from '../errors/GameErrors';
 
 let instance;
 class PieceFactory {
@@ -35,12 +36,23 @@ class PieceFactory {
 }
 
 class Piece extends IPiece {
-	constructor(isWhite) {super(isWhite);}
+	constructor(isWhite) {
+		super(isWhite);
+		this.isWhite = isWhite;
+		this._figureLine = 7, this._pawnLine = 6;
+		if (this.isWhite) {
+			this._figureLine = 0, this._pawnLine = 1;
+		}
+
+	}
 
 
-	isCellAccessible(xFrom, yFrom, xTo, yTo) {
+	isCellAccessible(xFrom, yFrom, xTo, yTo, game) {
 		super.isCellAccessible(xFrom, yFrom, xTo, yTo);
-		return this.getAccessibleCells(xFrom, yFrom).indexOf([xTo, yTo]) >= 0;
+		if (!isInMap(xFrom, yFrom)) throw new NotOnBoardError(xFrom, yFrom);
+		if (!isInMap(xTo, yTo)) throw new NotOnBoardError(xTo, yTo);
+
+		//		return this.getAccessibleCells(xFrom, yFrom).indexOf([xTo, yTo]) >= 0;
 	}
 
 	static * _computeCells(x, y, f) {

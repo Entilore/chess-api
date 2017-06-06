@@ -3,6 +3,7 @@
  */
 import {isInMap} from '../../../util/general';
 import {Piece} from './Piece';
+import {NotOnBoardError} from '../errors/GameErrors';
 let whiteInstance;
 let blackInstance;
 
@@ -25,7 +26,8 @@ export class Pawn extends Piece {
 
 
 	isCellAccessible(xFrom, yFrom, xTo, yTo, game) {
-		let toContent = game.getContent(xTo, yTo);
+		super.isCellAccessible(xFrom, yFrom, xTo, yTo, game);
+		let toContent = game.getPiece(xTo, yTo);
 		// if TO is occupied by a piece of the same color, abort
 		if (toContent && toContent.isWhite === this.isWhite) {
 			return false;

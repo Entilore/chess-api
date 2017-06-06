@@ -12,6 +12,11 @@ export class Rook extends Piece {
 		this.pathes = {};
 	}
 
+	* getInitialPosition(){
+		yield [0, this._figureLine];
+		yield [7, this._figureLine];
+	}
+
 	isCellAccessible(xFrom, yFrom, xTo, yTo){
 		// either same column, either same line, but not both
 		return (xFrom === xTo) !== (yFrom === yTo);
