@@ -87,20 +87,20 @@ export class Game extends IGame {
 		else
 			return false
 
-		return this.isTileBetween(beginColumn, line, endColumn, line)
+		return !this.isPiecesBetweenTiles(beginColumn, line, endColumn, line)
 	}
 
-	isTileBetween (xFrom, yFrom, xTo, yTo) {
+	isPiecesBetweenTiles (xFrom, yFrom, xTo, yTo) {
 		let [beginX, beginY] = Tile.firstTileInDirectionOf(xFrom, yFrom, xTo, yTo)
 		let [endX, endY] = Tile.firstTileInDirectionOf(xTo, yTo, xFrom, yFrom)
 
-		for (let [i, j] of Game.getTilesBetween(beginX, beginY, endX, endY)) {
+		for (let [i, j] of Tile.getTilesBetween(beginX, beginY, endX, endY)) {
 			if (this.getPiece(i, j)) {
-				return false
+				return true
 			}
 		}
 
-		return true
+		return false
 	}
 
 	getPlayer (isWhite) {
@@ -108,29 +108,5 @@ export class Game extends IGame {
 		return this.blackPlayer
 	}
 
-	static * _getIndexGenerator (i, j, strict = false) {
-		if (i < j) {
-			if (strict) j--
-			for (let n = i; n <= j; n++)
-				yield n;
-		}
-		else {
-			if (strict) j++
-			for (let n = i; n >= j; n--)
-				yield n;
-		}
-	}
-
-	static * getTilesBetween (xFrom, yFrom, xTo, yTo) {
-		if (xFrom === xTo || yFrom === yTo) {
-			for (let i of Game._getIndexGenerator(xFrom, xTo)) {
-				for (let j of Game._getIndexGenerator(yFrom, yTo)) {
-					yield [i, j]
-				}
-			}
-		} else {
-			throw new Error('Not yet implemented')
-		}
-	}
 }
 
