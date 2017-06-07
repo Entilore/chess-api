@@ -50,6 +50,7 @@ class Piece extends IPiece {
 
 	isCellAccessible (xFrom, yFrom, xTo, yTo, game) {
 		super.isCellAccessible(xFrom, yFrom, xTo, yTo)
+
 		if (!isInMap(xFrom, yFrom)) throw new NotOnBoardError(xFrom, yFrom)
 		if (!isInMap(xTo, yTo)) throw new NotOnBoardError(xTo, yTo)
 

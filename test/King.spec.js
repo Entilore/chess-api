@@ -77,28 +77,30 @@ export class KingTest {
 		it('should accept to do a castling if it is possible', function () {
 			self.whiteKing.isCellAccessible(xWhiteKing, yWhiteKing, xWhiteKing - 2, yWhiteKing, game).should.be.true
 			self.whiteKing.isCellAccessible(xWhiteKing, yWhiteKing, xWhiteKing + 2, yWhiteKing, game).should.be.true
-			self.blackKing.isCellAccessible(xBlackKing, yBlackKing, xBlackKing + 2, yBlackKing, game).should.be.true
+			self.blackKing.isCellAccessible(xBlackKing, yBlackKing, xBlackKing - 2, yBlackKing, game).should.be.true
 			self.blackKing.isCellAccessible(xBlackKing, yBlackKing, xBlackKing + 2, yBlackKing, game).should.be.true
 		})
 
 		it('should not accept to do a castling if it is not on the right tile', function () {
 			self.whiteKing.isCellAccessible(xWhiteKing, yWhiteKing, xWhiteKing - 3, yWhiteKing, game).should.be.false
 			self.whiteKing.isCellAccessible(xWhiteKing, yWhiteKing, xWhiteKing + 3, yWhiteKing, game).should.be.false
+
 			self.blackKing.isCellAccessible(xBlackKing, yBlackKing, xBlackKing + 3, yBlackKing, game).should.be.false
+			self.whiteKing.isCellAccessible(xWhiteKing, yWhiteKing, xWhiteKing + 3, yWhiteKing, game).should.be.false
 			self.blackKing.isCellAccessible(xBlackKing, yBlackKing, xBlackKing + 3, yBlackKing, game).should.be.false
 
 			self.whiteKing.isCellAccessible(xWhiteKing, yWhiteKing, xWhiteKing + 3, yWhiteKing + 1, game).should.be.false
 		})
 
-		it("should not accept to do a castling is a piece is between the rook and the king", function () {
+		it('should not accept to do a castling is a piece is between the rook and the king', function () {
 			self.whiteKing.isCellAccessible(xWhiteKing, yWhiteKing, xWhiteKing + 2, yWhiteKing, game).should.be.true
-			game.whitePlayer.pieces[[xWhiteKing + 2, yWhiteKing]] = pf.getInstance(Pawn, true);
+			game.whitePlayer.pieces[[xWhiteKing + 2, yWhiteKing]] = pf.getInstance(Pawn, true)
 			self.whiteKing.isCellAccessible(xWhiteKing, yWhiteKing, xWhiteKing + 2, yWhiteKing, game).should.be.false
-			game.whitePlayer.pieces[[xWhiteKing - 3, yWhiteKing]] = pf.getInstance(Pawn, true);
+			game.whitePlayer.pieces[[xWhiteKing - 3, yWhiteKing]] = pf.getInstance(Pawn, true)
 			self.whiteKing.isCellAccessible(xWhiteKing, yWhiteKing, xWhiteKing - 2, yWhiteKing, game).should.be.false
 		})
 
-		it("should not accept to do a castling if one of the pieces has moved", function () {
+		it('should not accept to do a castling if one of the pieces has moved', function () {
 			// not yet implemented
 		})
 	}
