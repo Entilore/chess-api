@@ -4,7 +4,7 @@
 
 import {Rook} from './Rook';
 import {Bishop} from './Bishop';
-import {Piece} from './Piece';
+import { Piece, PieceFactory } from './Piece'
 let instance;
 
 export class Queen extends Piece {
@@ -13,12 +13,14 @@ export class Queen extends Piece {
 		this.pathes = {};
 	}
 
-	isCellAccessible(xFrom, yFrom, xTo, yTo) {
+	isCellAccessible(xFrom, yFrom, xTo, yTo, game) {
+		super.isCellAccessible(xFrom, yFrom, xTo, yTo, game)
 		// a queen is a rook and a bishop...
-		let rook = new Rook();
-		let bishop = new Bishop();
+		let pf = PieceFactory.getInstance()
+		let rook = pf.createPiece(Rook, this.isWhite)
+		let bishop = pf.createPiece(Bishop, this.isWhite)
 
-		return rook.isCellAccessible(xFrom, yFrom, xTo, yTo) || bishop.isCellAccessible(xFrom, yFrom, xTo, yTo);
+		return rook.isCellAccessible(xFrom, yFrom, xTo, yTo, game) || bishop.isCellAccessible(xFrom, yFrom, xTo, yTo, game);
 	}
 
 	getAccessibleCells(x, y) {
