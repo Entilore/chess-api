@@ -49,6 +49,7 @@ export class BishopTest {
 		let game = getGameWithConfiguration(whitePieces, blackPieces)
 
 		this.whiteBishop.isCellAccessible(7, 7, 5, 5, game).should.be.true
+		this.whiteBishop.isCellAccessible(7, 7, 4, 4, game).should.be.true
 		this.whiteBishop.isCellAccessible(7, 7, 0, 0, game).should.be.false
 	}
 

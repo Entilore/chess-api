@@ -5,7 +5,6 @@
 import { isInMap } from '../../../../util/general'
 import { Piece } from './Piece'
 import { manhattanDistance } from '../../../../util/map'
-let instance
 
 export class Knight extends Piece {
 	constructor (isWhite) {
@@ -13,14 +12,14 @@ export class Knight extends Piece {
 		this.pathes = {}
 	}
 
-	isCellAccessible (xFrom, yFrom, xTo, yTo, game) {
-		super.isCellAccessible(xFrom, yFrom, xTo, yTo, game)
-		// manhattan distance is 3 and not on same line/column
-		if( (xFrom !== xTo && yFrom !== yTo) && manhattanDistance(xFrom, yFrom, xTo, yTo) === 3){
-			let destPiece = game.getPiece(xTo, yTo)
-			return !destPiece || destPiece.isWhite !== this.isWhite
-		}
-		return false
+	isPathUsable (xFrom, yFrom, xTo, yTo, game) {
+		const pieceOfDestination = game.getPiece(xTo, yTo)
+		return !pieceOfDestination || pieceOfDestination.isWhite !== this.isWhite
+	}
+
+	isTileTheoreticallyAccessible (xFrom, yFrom, xTo, yTo) {
+		return xFrom !== xTo && yFrom !== yTo
+			&& manhattanDistance(xFrom, yFrom, xTo, yTo) === 3
 	}
 
 	getAccessibleCells (x, y) {

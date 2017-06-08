@@ -22,8 +22,13 @@ export class Pawn extends Piece {
 		return 6
 	}
 
+	isTileTheoreticallyAccessible () {
+		throw new Error('Irrelevant here')
+	}
+
 	isCellAccessible (xFrom, yFrom, xTo, yTo, game) {
-		super.isCellAccessible(xFrom, yFrom, xTo, yTo, game)
+		super._checkParamsIsCellAccessible(xFrom, yFrom, xTo, yTo, game)
+
 		let toContent = game.getPiece(xTo, yTo)
 		// if TO is occupied by a piece of the same color, abort
 		if (toContent && toContent.isWhite === this.isWhite) {

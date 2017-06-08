@@ -2,35 +2,34 @@
  * Created by thareau on 28/05/17.
  */
 
-import {Rook} from './Rook';
-import {Bishop} from './Bishop';
+import { Rook } from './Rook'
+import { Bishop } from './Bishop'
 import { Piece, PieceFactory } from './Piece'
-let instance;
+let instance
 
 export class Queen extends Piece {
-	constructor(isWhite) {
-		super(isWhite);
-		this.pathes = {};
+	constructor (isWhite) {
+		super(isWhite)
+		this.pathes = {}
 	}
 
-	isCellAccessible(xFrom, yFrom, xTo, yTo, game) {
-		super.isCellAccessible(xFrom, yFrom, xTo, yTo, game)
-		// a queen is a rook and a bishop...
+	isTileTheoreticallyAccessible (xFrom, yFrom, xTo, yTo) {
 		let pf = PieceFactory.getInstance()
 		let rook = pf.createPiece(Rook, this.isWhite)
 		let bishop = pf.createPiece(Bishop, this.isWhite)
 
-		return rook.isCellAccessible(xFrom, yFrom, xTo, yTo, game) || bishop.isCellAccessible(xFrom, yFrom, xTo, yTo, game);
+		return rook.isTileTheoreticallyAccessible(xFrom, yFrom, xTo, yTo)
+			|| bishop.isTileTheoreticallyAccessible(xFrom, yFrom, xTo, yTo)
 	}
 
-	getAccessibleCells(x, y) {
+	getAccessibleCells (x, y) {
 		// a queen is a rook and a bishop...
-		let rook = new Rook();
-		let bishop = new Bishop();
+		let rook = new Rook()
+		let bishop = new Bishop()
 
-		let rookCells = rook.getAccessibleCells(x, y).clone();
-		let bishopCells = bishop.getAccessibleCells(x, y).clone();
+		let rookCells = rook.getAccessibleCells(x, y).clone()
+		let bishopCells = bishop.getAccessibleCells(x, y).clone()
 
-		return Array.prototype.push.apply(rookCells, bishopCells);
+		return Array.prototype.push.apply(rookCells, bishopCells)
 	}
 }

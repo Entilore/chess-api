@@ -3,7 +3,6 @@
  */
 
 import { Piece } from './Piece'
-let instance
 
 export class Rook extends Piece {
 	constructor (isWhite) {
@@ -17,12 +16,8 @@ export class Rook extends Piece {
 		yield [7, this._figureLine]
 	}
 
-	isCellAccessible (xFrom, yFrom, xTo, yTo, game) {
-		// either same column, either same line, but not both
-		if ((xFrom === xTo) !== (yFrom === yTo)) {
-			return !game.isPiecesBetweenTiles(xFrom, yFrom, xTo, yTo)
-		}
-		return false
+	isTileTheoreticallyAccessible (xFrom, yFrom, xTo, yTo) {
+		return (xFrom === xTo) !== (yFrom === yTo)
 	}
 
 	getAccessibleCells (x, y) {

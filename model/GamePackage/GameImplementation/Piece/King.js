@@ -2,7 +2,7 @@
  * Created by thareau on 28/05/17.
  */
 
-import { isInMap } from '../../../../util/general'
+import { assertInstanceOf, assertIsTile, isInMap } from '../../../../util/general'
 import { adjacentDistance } from '../../../../util/map'
 import { Piece } from './Piece'
 import { Game } from '../Game'
@@ -14,8 +14,13 @@ export class King extends Piece {
 		this.pathes = {}
 	}
 
+	isTileTheoreticallyAccessible (xFrom, yFrom, xTo, yTo){
+		throw new Error("Irrelevant here")
+	}
+
 	isCellAccessible (xFrom, yFrom, xTo, yTo, game) {
-		super.isCellAccessible(xFrom, yFrom, xTo, yTo, game)
+		super._checkParamsIsCellAccessible(xFrom, yFrom, xTo, yTo, game)
+
 		if (adjacentDistance(xFrom, yFrom, xTo, yTo) === 1) return true
 
 		if (this.isInitialCell(xFrom, yFrom) && yTo === this._figureLine) {

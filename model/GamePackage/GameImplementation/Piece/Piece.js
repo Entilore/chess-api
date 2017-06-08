@@ -50,6 +50,16 @@ class Piece extends IPiece {
 
 	get isWhite () { return this._isWhite}
 
+	isPathUsable (xFrom, yFrom, xTo, yTo, game) {
+		const pieceOnDestination = game.getPiece(xTo, yTo)
+		const pieceIsNotOwned = !pieceOnDestination || pieceOnDestination.isWhite !== this.isWhite
+		return pieceIsNotOwned && !game.isPiecesBetweenTiles(xFrom, yFrom, xTo, yTo)
+	}
+
+	isTileTheoreticallyAccessible (xFrom, yFrom, xTo, yTo){
+		throw new Error("Abstract function, have to be implemented")
+	}
+
 	/**
 	 * determine if a tile is accessible from another tile
 	 * @param xFrom
@@ -59,12 +69,11 @@ class Piece extends IPiece {
 	 * @param game
 	 */
 	isCellAccessible (xFrom, yFrom, xTo, yTo, game) {
-		super.isCellAccessible(xFrom, yFrom, xTo, yTo)
+		super.isCellAccessible(xFrom, yFrom, xTo, yTo, game)
 
-		if (!isInMap(xFrom, yFrom)) throw new NotOnBoardError(xFrom, yFrom)
-		if (!isInMap(xTo, yTo)) throw new NotOnBoardError(xTo, yTo)
-
-		//		return this.getAccessibleCells(xFrom, yFrom).indexOf([xTo, yTo]) >= 0;
+		const theoretically = this.isTileTheoreticallyAccessible(xFrom, yFrom, xTo, yTo)
+		const pathUsable = this.isPathUsable(xFrom, yFrom, xTo, yTo, game)
+		return theoretically && pathUsable
 	}
 
 	/**
