@@ -50,14 +50,43 @@ class Piece extends IPiece {
 
 	get isWhite () { return this._isWhite}
 
+	/**
+	 * check that a path is usable, taking care of the Pieces on the board
+	 * @param xFrom
+	 * @param yFrom
+	 * @param xTo
+	 * @param yTo
+	 * @param game
+	 * @returns {boolean}
+	 */
 	isPathUsable (xFrom, yFrom, xTo, yTo, game) {
 		const pieceOnDestination = game.getPiece(xTo, yTo)
 		const pieceIsNotOwned = !pieceOnDestination || pieceOnDestination.isWhite !== this.isWhite
 		return pieceIsNotOwned && !game.isPiecesBetweenTiles(xFrom, yFrom, xTo, yTo)
 	}
 
-	isTileTheoreticallyAccessible (xFrom, yFrom, xTo, yTo){
-		throw new Error("Abstract function, have to be implemented")
+	/**
+	 * compute if a tile is accessible from another tile, ignoring context values
+	 * @param xFrom
+	 * @param yFrom
+	 * @param xTo
+	 * @param yTo
+	 */
+	isTileTheoreticallyAccessible (xFrom, yFrom, xTo, yTo) {
+		throw new Error('Abstract function, have to be implemented')
+	}
+
+	/**
+	 * this function can be redefine to add a possibility to a Tile (castling for king, ... )
+	 * @param xFrom
+	 * @param yFrom
+	 * @param xTo
+	 * @param yTo
+	 * @param game
+	 * @returns {boolean}
+	 */
+	isTileSpeciallyAccessible (xFrom, yFrom, xTo, yTo, game) {
+		return false
 	}
 
 	/**
@@ -73,7 +102,8 @@ class Piece extends IPiece {
 
 		const theoretically = this.isTileTheoreticallyAccessible(xFrom, yFrom, xTo, yTo)
 		const pathUsable = this.isPathUsable(xFrom, yFrom, xTo, yTo, game)
-		return theoretically && pathUsable
+		const specialCase = this.isTileSpeciallyAccessible(xFrom, yFrom, xTo, yTo, game)
+		return (theoretically && pathUsable) || specialCase
 	}
 
 	/**
@@ -95,6 +125,8 @@ class Piece extends IPiece {
 			let [i, j] = f(i, j)
 		}
 	}
+
+
 }
 
 export { Piece, PieceFactory }

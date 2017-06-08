@@ -2,11 +2,10 @@
  * Created by thareau on 28/05/17.
  */
 
-import { assertInstanceOf, assertIsTile, isInMap } from '../../../../util/general'
+import { isInMap } from '../../../../util/general'
 import { adjacentDistance } from '../../../../util/map'
 import { Piece } from './Piece'
 import { Game } from '../Game'
-let instance
 
 export class King extends Piece {
 	constructor (isWhite) {
@@ -14,15 +13,11 @@ export class King extends Piece {
 		this.pathes = {}
 	}
 
-	isTileTheoreticallyAccessible (xFrom, yFrom, xTo, yTo){
-		throw new Error("Irrelevant here")
+	isTileTheoreticallyAccessible (xFrom, yFrom, xTo, yTo) {
+		return adjacentDistance(xFrom, yFrom, xTo, yTo) === 1
 	}
 
-	isCellAccessible (xFrom, yFrom, xTo, yTo, game) {
-		super._checkParamsIsCellAccessible(xFrom, yFrom, xTo, yTo, game)
-
-		if (adjacentDistance(xFrom, yFrom, xTo, yTo) === 1) return true
-
+	isTileSpeciallyAccessible (xFrom, yFrom, xTo, yTo, game) {
 		if (this.isInitialCell(xFrom, yFrom) && yTo === this._figureLine) {
 			// queen side castling
 			let side = -1
@@ -38,7 +33,6 @@ export class King extends Piece {
 				return game.isCastlingPossible(this.isWhite, side)
 			}
 		}
-
 		return false
 	}
 

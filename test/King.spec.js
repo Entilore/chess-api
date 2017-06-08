@@ -108,6 +108,7 @@ export class KingTest {
 	movingToAnotherPiece () {
 		let whitePieces = new Map([
 			[this.whiteKing, [[1, 1]]],
+			[pf.createPiece(Pawn, true), [[1, 2]]],
 		])
 		let blackPieces = new Map([
 			[this.blackKing, [[5, 5]]],
@@ -116,6 +117,7 @@ export class KingTest {
 		let game = getGameWithConfiguration(whitePieces, blackPieces)
 
 		this.whiteKing.isCellAccessible(1, 1, 2, 2, game).should.be.true
+		this.whiteKing.isCellAccessible(1, 1, 1, 2, game).should.be.false
 	}
 
 }

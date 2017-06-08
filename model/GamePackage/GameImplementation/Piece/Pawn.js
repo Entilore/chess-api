@@ -22,37 +22,25 @@ export class Pawn extends Piece {
 		return 6
 	}
 
-	isTileTheoreticallyAccessible () {
-		throw new Error('Irrelevant here')
+	isPathUsable (xFrom, yFrom, xTo, yTo, game) {
+		return !game.getPiece(xTo, yTo)
 	}
 
-	isCellAccessible (xFrom, yFrom, xTo, yTo, game) {
-		super._checkParamsIsCellAccessible(xFrom, yFrom, xTo, yTo, game)
+	isTileTheoreticallyAccessible (xFrom, yFrom, xTo, yTo) {
+		// piece have to stay on the same column
+		if (xFrom !== xTo) return false
+		// piece may advance with 2 if on the beginning line
+		if (yFrom === this._beginningLine() && this.getNextLine(yFrom, 2) === yTo) return true
+		// otherwise shall go to the next line
+		return yTo === this.getNextLine(yFrom)
+	}
 
-		let toContent = game.getPiece(xTo, yTo)
-		// if TO is occupied by a piece of the same color, abort
-		if (toContent && toContent.isWhite === this.isWhite) {
-			return false
+	isTileSpeciallyAccessible (xFrom, yFrom, xTo, yTo, game) {
+		if ((xFrom === xTo - 1 || xFrom === xTo + 1) && yTo === this.getNextLine(yFrom)) {
+			let isBlackPiece = !!game.getPiece(xTo, yTo, !this.isWhite)
+			return !!game.getPiece(xTo, yTo, !this.isWhite)
 		}
-		else {
-			// either empty, either adversary on it
-			if (toContent) {
-				// adversary on it
-				// piece have to be on +- 1 line
-				if (xFrom !== xTo - 1 && xFrom !== xTo + 1) return false
-				// piece have to be on the next line
-				return yTo === this.getNextLine(yFrom)
-
-			} else {
-				// empty
-				// piece have to stay on the same column
-				if (xFrom !== xTo) return false
-				// piece may advance with 2 if on the beginning line
-				if (yFrom === this._beginningLine() && this.getNextLine(yFrom, 2) === yTo) return true
-				// otherwise shall go to the next line
-				return yTo === this.getNextLine(yFrom)
-			}
-		}
+		return false
 	}
 
 	getAccessibleCells (x, y) {
