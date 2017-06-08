@@ -140,12 +140,12 @@ export class Game extends IGame {
 				[Rook, Queen],
 			)) return true
 		// check for bishop and Queen
-		if (this._checkNoPieceFromInstanceInDirection(
-				x, y, attackerIsWhite,
-				[[1, 1], [-1, -1], [-1, 1], [1, -1]],
-				[Bishop, Queen],
-			)) return true
-		return false
+		return this._checkNoPieceFromInstanceInDirection(
+			x, y, attackerIsWhite,
+			[[1, 1], [-1, -1], [-1, 1], [1, -1]],
+			[Bishop, Queen],
+		);
+
 	}
 
 	/**
