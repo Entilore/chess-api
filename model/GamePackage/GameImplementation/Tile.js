@@ -45,7 +45,7 @@ export class Tile {
 	 */
 	static * getTilesBetween (xFrom, yFrom, xTo, yTo) {
 		let [tmpX, tmpY] = [xFrom, yFrom]
-		while (tmpX !== xTo && tmpY !== yTo) {
+		while (tmpX !== xTo || tmpY !== yTo) {
 			yield [tmpX, tmpY];
 			[tmpX, tmpY] = Tile.firstTileInDirectionOf(tmpX, tmpY, xTo, yTo)
 		}
