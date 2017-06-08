@@ -4,12 +4,13 @@ import { KingTest } from './King.spec'
 import { BishopTest } from './Bishop.spec'
 import { KnightTest } from './Knight.spec'
 import { QueenTest } from './Queen.spec'
+import { RookTest } from './Rook.spec'
 
 let chai = require('chai')
 chai.should()
 
 describe('The pieces functions', function () {
-	let pieces = [new BishopTest(), new KingTest(), new KnightTest(), new PawnTest(), new QueenTest()]
+	let pieces = [new BishopTest(), new KingTest(), new KnightTest(), new PawnTest(), new QueenTest(), new RookTest()]
 	for (let testObj of pieces) {
 		describe(testObj.testedPiece, function () {
 			describe('isCellAccessible', function () {
