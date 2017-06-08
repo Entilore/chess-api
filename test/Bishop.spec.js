@@ -11,9 +11,9 @@ let pf = PieceFactory.getInstance()
 
 export class BishopTest {
 	constructor () {
-		this.whiteBishop = pf.getInstance(Bishop, true)
+		this.whiteBishop = pf.createPiece(Bishop, true)
 		// not really necessary, since no difference
-		this.blackBishop = pf.getInstance(Bishop, false)
+		this.blackBishop = pf.createPiece(Bishop, false)
 		this.emptyGame = getEmptyGame()
 		this.testedPiece = 'Bishop'
 	}

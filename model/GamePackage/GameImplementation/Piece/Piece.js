@@ -20,7 +20,7 @@ class PieceFactory {
 		return instance
 	}
 
-	getInstance (clazz, isWhite) {
+	createPiece (clazz, isWhite) {
 		let key = [clazz.name, isWhite]
 		if (!this.pieceClasses[key]) this.pieceClasses[key] = new clazz(isWhite)
 		let obj = this.pieceClasses[key]
@@ -38,7 +38,7 @@ class PieceFactory {
 class Piece extends IPiece {
 	constructor (isWhite) {
 		super(isWhite)
-		this.isWhite = isWhite
+		this._isWhite = isWhite
 		this._figureLine = 7
 		this._pawnLine = 6
 		if (this.isWhite) {
@@ -48,6 +48,16 @@ class Piece extends IPiece {
 
 	}
 
+	get isWhite () { return this._isWhite}
+
+	/**
+	 * determine if a tile is accessible from another tile
+	 * @param xFrom
+	 * @param yFrom
+	 * @param xTo
+	 * @param yTo
+	 * @param game
+	 */
 	isCellAccessible (xFrom, yFrom, xTo, yTo, game) {
 		super.isCellAccessible(xFrom, yFrom, xTo, yTo)
 
@@ -55,6 +65,17 @@ class Piece extends IPiece {
 		if (!isInMap(xTo, yTo)) throw new NotOnBoardError(xTo, yTo)
 
 		//		return this.getAccessibleCells(xFrom, yFrom).indexOf([xTo, yTo]) >= 0;
+	}
+
+	/**
+	 * determine if any instance of the current piece can attack the given tile
+	 * @param x
+	 * @param y
+	 * @param game
+	 */
+	canAttackCell (x, y, game) {
+		super.canAttackTile(x, y, game)
+		if (!isInMap(x, y)) throw new NotOnBoardError(x, y)
 	}
 
 	static * _computeCells (x, y, f) {

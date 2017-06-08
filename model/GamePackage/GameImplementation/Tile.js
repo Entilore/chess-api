@@ -1,6 +1,7 @@
 /**
  * Created by thareau on 06/06/17.
  */
+import { isInMap } from '../../../util/general'
 export class Tile {
 	static _firstDirection (iFrom, iTo) {
 		if (iFrom < iTo)
@@ -11,7 +12,27 @@ export class Tile {
 	}
 
 	static firstTileInDirectionOf (xFrom, yFrom, xTo, yTo) {
-		return [Tile._firstDirection(xFrom, xTo),Tile._firstDirection(yFrom, yTo)]
+		return [Tile._firstDirection(xFrom, xTo), Tile._firstDirection(yFrom, yTo)]
+	}
+
+	static * getTilesInDirection (x, y, xIncrement = 0, yIncrement = 0) {
+		if (xIncrement === 0 && yIncrement === 0)
+			throw new Error('Infinite loop...')
+
+		yield* Tile._generateTilePath(x, y, (i, j) => {
+			return [i + xIncrement, j + yIncrement]
+		})
+	}
+
+	static * _generateTilePath (x, y, gen) {
+		let i = x
+		let j = y
+
+		while (isInMap(i, j)) {
+			[i, j] = gen(i, j)
+			yield [i, j]
+		}
+
 	}
 
 	/**

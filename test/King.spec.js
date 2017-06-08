@@ -12,8 +12,8 @@ let pf = PieceFactory.getInstance()
 
 export class KingTest {
 	constructor () {
-		this.whiteKing = pf.getInstance(King, true)
-		this.blackKing = pf.getInstance(King, false)
+		this.whiteKing = pf.createPiece(King, true)
+		this.blackKing = pf.createPiece(King, false)
 		this.emptyGame = getEmptyGame()
 		this.testedPiece = 'King'
 	}
@@ -65,12 +65,12 @@ export class KingTest {
 
 		let whitePieces = new Map([
 			[this.whiteKing, [whiteKingPosition]],
-			[pf.getInstance(Rook, true), [...pf.getInstance(Rook, true).getInitialPosition()]],
+			[pf.createPiece(Rook, true), [...pf.createPiece(Rook, true).getInitialPosition()]],
 		])
 
 		let blackPieces = new Map([
 			[this.blackKing, [...this.blackKing.getInitialPosition()]],
-			[pf.getInstance(Rook, false), [...pf.getInstance(Rook, false).getInitialPosition()]],
+			[pf.createPiece(Rook, false), [...pf.createPiece(Rook, false).getInitialPosition()]],
 		])
 		let game = getGameWithConfiguration(whitePieces, blackPieces)
 		let self = this
@@ -94,9 +94,9 @@ export class KingTest {
 
 		it('should not accept to do a castling is a piece is between the rook and the king', function () {
 			self.whiteKing.isCellAccessible(xWhiteKing, yWhiteKing, xWhiteKing + 2, yWhiteKing, game).should.be.true
-			game.whitePlayer.pieces[[xWhiteKing + 2, yWhiteKing]] = pf.getInstance(Pawn, true)
+			game.whitePlayer.pieces[[xWhiteKing + 2, yWhiteKing]] = pf.createPiece(Pawn, true)
 			self.whiteKing.isCellAccessible(xWhiteKing, yWhiteKing, xWhiteKing + 2, yWhiteKing, game).should.be.false
-			game.whitePlayer.pieces[[xWhiteKing - 3, yWhiteKing]] = pf.getInstance(Pawn, true)
+			game.whitePlayer.pieces[[xWhiteKing - 3, yWhiteKing]] = pf.createPiece(Pawn, true)
 			self.whiteKing.isCellAccessible(xWhiteKing, yWhiteKing, xWhiteKing - 2, yWhiteKing, game).should.be.false
 		})
 
@@ -111,7 +111,7 @@ export class KingTest {
 		])
 		let blackPieces = new Map([
 			[this.blackKing, [[5, 5]]],
-			[pf.getInstance(Pawn, false), [[2, 2]]],
+			[pf.createPiece(Pawn, false), [[2, 2]]],
 		])
 		let game = getGameWithConfiguration(whitePieces, blackPieces)
 

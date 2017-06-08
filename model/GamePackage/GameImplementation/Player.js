@@ -53,19 +53,19 @@ export class Player extends IPlayer {
 
     //add pawns first (because easier)
     for (let i = 0; i < 8; i++) {
-      this.pieces[[i, pawnsLine]] = pf.getInstance(Pawn, isWhite)
+      this.pieces[[i, pawnsLine]] = pf.createPiece(Pawn, isWhite)
     }
 
     // then Rook, Knight and Bishop => Roknibi
-    let roknibi = [() => pf.getInstance(Rook, isWhite), () => pf.getInstance(Knight, isWhite), () => pf.getInstance(Bishop, isWhite)]
+    let roknibi = [() => pf.createPiece(Rook, isWhite), () => pf.createPiece(Knight, isWhite), () => pf.createPiece(Bishop, isWhite)]
 
     for (let i = 0; i < roknibi.length; i++) {
       this.pieces[[i, figureLine]] = roknibi[i]()
       this.pieces[[7 - i, figureLine]] = roknibi[i]()
     }
 
-    this.pieces[[3, figureLine]] = pf.getInstance(Queen, isWhite)
-    this.pieces[[4, figureLine]] = pf.getInstance(King, isWhite)
+    this.pieces[[3, figureLine]] = pf.createPiece(Queen, isWhite)
+    this.pieces[[4, figureLine]] = pf.createPiece(King, isWhite)
   }
 
   getPiece (x, y) {

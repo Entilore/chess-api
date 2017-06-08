@@ -3,6 +3,13 @@
  */
 import { IGame } from '../IGame'
 import { Tile } from './Tile'
+import { PieceFactory } from './Piece/Piece'
+import { Pawn } from './Piece/Pawn'
+import { Knight } from './Piece/Knight'
+import { Rook } from './Piece/Rook'
+import { Queen } from './Piece/Queen'
+import { Bishop } from './Piece/Bishop'
+import { King } from './Piece/King'
 
 export class Game extends IGame {
 	constructor (player1, player2) {
@@ -22,10 +29,15 @@ export class Game extends IGame {
 
 	static get QUEEN_SIDE_CASTLING () {return 2}
 
-	getPiece (x, y) {
+	getPiece (x, y, isWhite) {
 		let map = this.map
-		if (map[x] && map[x][y]) return map[x][y]
-		return null
+		let piece = null
+		if (map[x] && map[x][y]) piece = map[x][y]
+		if (isWhite !== undefined && piece) {
+			if (piece.isWhite === isWhite) return piece
+			else return null
+		}
+		else return piece
 	}
 
 	getPieces (positionsList) {
@@ -34,7 +46,6 @@ export class Game extends IGame {
 			let piece = this.getPiece(x, y)
 			if (piece) piecesMap.set([x, y], piece)
 		}
-
 		return piecesMap
 	}
 
@@ -58,10 +69,10 @@ export class Game extends IGame {
 
 		let map = []
 		for (let i = 0; i < 8; i++) {
+			if (!map[i]) map[i] = []
 			for (let j = 0; j < 8; j++) {
 				let piece = this.whitePlayer.getPiece(i, j) || this.blackPlayer.getPiece(i, j)
 				if (piece) {
-					if (!map[i]) map[i] = []
 					map[i][j] = piece
 				}
 			}
@@ -108,5 +119,77 @@ export class Game extends IGame {
 		return this.blackPlayer
 	}
 
+	isUnderAttack (x, y, attackerIsWhite) {
+		let pf = PieceFactory.getInstance()
+
+		// check for pawns
+		let pawn = pf.createPiece(Pawn, attackerIsWhite)
+		if (pawn.canAttackTile(x, y, this)) return true
+		// check for knight
+		let knight = pf.createPiece(Knight, attackerIsWhite)
+		if (knight.canAttackTile(x, y, this)) return true
+
+		// check for king
+		let king = pf.createPiece(King, attackerIsWhite)
+		if (king.canAttackTile(x, y, this)) return true
+
+		// check for Rook and Queen
+		if (this._checkNoPieceFromInstanceInDirection(
+				x, y, attackerIsWhite,
+				[[1, 0], [0, 1], [-1, 0], [0, -1]],
+				[Rook, Queen],
+			)) return true
+		// check for bishop and Queen
+		if (this._checkNoPieceFromInstanceInDirection(
+				x, y, attackerIsWhite,
+				[[1, 1], [-1, -1], [-1, 1], [1, -1]],
+				[Bishop, Queen],
+			)) return true
+		return false
+	}
+
+	/**
+	 * checks no instance of a class is present in a direction
+	 * @param x the X of the starting tile
+	 * @param y the Y of the starting tile
+	 * @param color the color of the piece to look
+	 * @param directions the directions to take, see Tile.getTilesInDirection for more details
+	 * @param classes the classes the piece shall not be
+	 * @returns {boolean} whether an instance of this class was found
+	 * @private
+	 */
+	_checkNoPieceFromInstanceInDirection (x, y, color, directions, classes) {
+		for (let [xIncrement, yIncrement] of directions) {
+			for (let [i, j] of Tile.getTilesInDirection(x, y, xIncrement, yIncrement)) {
+				let piece = this.getPiece(i, j)
+				if (piece) {
+					for (let clazz of classes)
+						if (piece instanceof clazz && piece.isWhite === color) return true
+					break
+				}
+			}
+		}
+		return false
+	}
+
+	get ascii_art_representation () {
+		let s = ''
+		let m = this.map
+		for (let i = 7; i >= 0; i--) {
+			s += ' +' + '-+'.repeat(8) + '\n'+i+'|'
+			for (let j = 0; j < 8; j++) {
+				let p = m[j][i]
+				let letter = ' '
+				if (p) {
+					letter = p.constructor.name[0]
+					if (!p.isWhite) letter = letter.toLowerCase()
+				}
+				s += letter + '|'
+			}
+			s += '\n'
+		}
+		s += ' +' + '-+'.repeat(8) + '\n  0 1 2 3 4 5 6 7'
+		return s
+	}
 }
 

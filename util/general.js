@@ -13,8 +13,8 @@ let assertTrue = function (condition, message = 'Failure') {
 	if (!condition) throw new Error(message);
 };
 
-let isInMap = function (i, j = -1) {
-	if (j !== -1) return isInMap(i) && isInMap(j);
+let isInMap = function (i, j = undefined) {
+	if (j !== undefined) return isInMap(i) && isInMap(j);
 	return i >= 0 && i < 8;
 };
 

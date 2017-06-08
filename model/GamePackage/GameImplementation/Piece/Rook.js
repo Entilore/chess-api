@@ -37,4 +37,10 @@ export class Rook extends Piece {
 		this.pathes[[x, y]] = cells;
 		return cells;
 	}
+
+
+	canAttackTile (x, y, game) {
+		super.canAttackTile(x, y, game)
+
+	}
 }

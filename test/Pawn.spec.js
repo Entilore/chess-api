@@ -10,8 +10,8 @@ let pf = PieceFactory.getInstance();
 
 export class PawnTest {
 	constructor() {
-		this.whitePawn = pf.getInstance(Pawn, true);
-		this.blackPawn = pf.getInstance(Pawn, false);
+		this.whitePawn = pf.createPiece(Pawn, true);
+		this.blackPawn = pf.createPiece(Pawn, false);
 		this.emptyGame = getEmptyGame();
 		this.testedPiece = 'Pawn';
 	}
