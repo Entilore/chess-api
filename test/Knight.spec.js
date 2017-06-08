@@ -11,38 +11,38 @@ let pf = PieceFactory.getInstance()
 
 export class KnightTest {
 	constructor () {
-		this.whiteKnight = pf.createPiece(Knight, true)
+		this.whiteBishop = pf.createPiece(Knight, true)
 		// not really necessary, since no difference
-		this.blackKnight = pf.createPiece(Knight, false)
+		this.blackBishop = pf.createPiece(Knight, false)
 		this.emptyGame = getEmptyGame()
 		this.testedPiece = 'Knight'
 	}
 
 	cellIsAccessibleTest (game) {
 		game = game || this.emptyGame
-		this.whiteKnight.isCellAccessible(2, 2, 0, 1, game).should.be.true
-		this.whiteKnight.isCellAccessible(2, 2, 0, 3, game).should.be.true
-		this.whiteKnight.isCellAccessible(2, 2, 1, 0, game).should.be.true
-		this.whiteKnight.isCellAccessible(2, 2, 1, 4, game).should.be.true
-		this.whiteKnight.isCellAccessible(2, 2, 3, 0, game).should.be.true
-		this.whiteKnight.isCellAccessible(2, 2, 3, 4, game).should.be.true
-		this.whiteKnight.isCellAccessible(2, 2, 4, 1, game).should.be.true
-		this.whiteKnight.isCellAccessible(2, 2, 4, 3, game).should.be.true
+		this.whiteBishop.isCellAccessible(2, 2, 0, 1, game).should.be.true
+		this.whiteBishop.isCellAccessible(2, 2, 0, 3, game).should.be.true
+		this.whiteBishop.isCellAccessible(2, 2, 1, 0, game).should.be.true
+		this.whiteBishop.isCellAccessible(2, 2, 1, 4, game).should.be.true
+		this.whiteBishop.isCellAccessible(2, 2, 3, 0, game).should.be.true
+		this.whiteBishop.isCellAccessible(2, 2, 3, 4, game).should.be.true
+		this.whiteBishop.isCellAccessible(2, 2, 4, 1, game).should.be.true
+		this.whiteBishop.isCellAccessible(2, 2, 4, 3, game).should.be.true
 	}
 
 	cellIsNotAccessibleTest () {
-		this.whiteKnight.isCellAccessible(2, 2, 3, 3, this.emptyGame).should.be.false
-		this.whiteKnight.isCellAccessible(2, 2, 7, 7, this.emptyGame).should.be.false
-		this.whiteKnight.isCellAccessible(2, 2, 2, 5, this.emptyGame).should.be.false
-		this.whiteKnight.isCellAccessible(2, 2, 5, 2, this.emptyGame).should.be.false
+		this.whiteBishop.isCellAccessible(2, 2, 3, 3, this.emptyGame).should.be.false
+		this.whiteBishop.isCellAccessible(2, 2, 7, 7, this.emptyGame).should.be.false
+		this.whiteBishop.isCellAccessible(2, 2, 2, 5, this.emptyGame).should.be.false
+		this.whiteBishop.isCellAccessible(2, 2, 5, 2, this.emptyGame).should.be.false
 	}
 
 	cellIsOutOfTheBoard () {
-		(() => this.whiteKnight.isCellAccessible(7, 7, 5, 8, this.emptyGame)).should.throw();
-		(() => this.whiteKnight.isCellAccessible(5, 8, 7, 7, this.emptyGame)).should.throw();
+		(() => this.whiteBishop.isCellAccessible(7, 7, 5, 8, this.emptyGame)).should.throw();
+		(() => this.whiteBishop.isCellAccessible(5, 8, 7, 7, this.emptyGame)).should.throw();
 
-		(() => this.blackKnight.isCellAccessible(7, 7, 5, 8, this.emptyGame)).should.throw();
-		(() => this.blackKnight.isCellAccessible(5, 8, 7, 7, this.emptyGame)).should.throw()
+		(() => this.blackBishop.isCellAccessible(7, 7, 5, 8, this.emptyGame)).should.throw();
+		(() => this.blackBishop.isCellAccessible(5, 8, 7, 7, this.emptyGame)).should.throw()
 	}
 
 	specialCaseTest () {
@@ -53,7 +53,7 @@ export class KnightTest {
 			[3, 2],
 			[3, 3],
 			[2, 1],
-		], [this.whiteKnight, [2, 2]]]])
+		], [this.whiteBishop, [2, 2]]]])
 		let blackPieces = new Map([[blackPawn, [[1, 1], [1, 2], [1, 3], [2, 3]]]])
 
 		let game = getGameWithConfiguration(whitePieces, blackPieces)
@@ -63,11 +63,12 @@ export class KnightTest {
 	}
 
 	movingToAnotherPiece () {
-		let whitePieces = new Map([[this.whiteKnight, [[2, 2]]]])
-		let blackPieces = new Map([[this.blackKnight, [[0, 1]]]])
+		let whitePieces = new Map([[this.whiteBishop, [[2, 2], [0, 3]]]])
+		let blackPieces = new Map([[this.blackBishop, [[0, 1]]]])
 		let game = getGameWithConfiguration(whitePieces, blackPieces)
 
-		this.whiteKnight.isCellAccessible(2, 2, 0, 1, game).should.be.true
+		this.whiteBishop.isCellAccessible(2, 2, 0, 1, game).should.be.true
+		this.whiteBishop.isCellAccessible(2, 2, 0, 3, game).should.be.false
 	}
 
 }

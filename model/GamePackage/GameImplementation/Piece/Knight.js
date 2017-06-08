@@ -13,10 +13,14 @@ export class Knight extends Piece {
 		this.pathes = {}
 	}
 
-	isCellAccessible (xFrom, yFrom, xTo, yTo) {
-		super.isCellAccessible(xFrom, yFrom, xTo, yTo)
+	isCellAccessible (xFrom, yFrom, xTo, yTo, game) {
+		super.isCellAccessible(xFrom, yFrom, xTo, yTo, game)
 		// manhattan distance is 3 and not on same line/column
-		return (xFrom !== xTo && yFrom !== yTo) && manhattanDistance(xFrom, yFrom, xTo, yTo) === 3
+		if( (xFrom !== xTo && yFrom !== yTo) && manhattanDistance(xFrom, yFrom, xTo, yTo) === 3){
+			let destPiece = game.getPiece(xTo, yTo)
+			return !destPiece || destPiece.isWhite !== this.isWhite
+		}
+		return false
 	}
 
 	getAccessibleCells (x, y) {
