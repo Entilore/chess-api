@@ -103,6 +103,10 @@ export class Game extends IGame {
 
 	isPiecesBetweenTiles (xFrom, yFrom, xTo, yTo) {
 		let [beginX, beginY] = Tile.firstTileInDirectionOf(xFrom, yFrom, xTo, yTo)
+
+		// if tiles were neighbour, then no pieces between both
+		if (beginX === xTo && beginY === yTo) return false
+
 		let [endX, endY] = Tile.firstTileInDirectionOf(xTo, yTo, xFrom, yFrom)
 
 		for (let [i, j] of Tile.getTilesBetween(beginX, beginY, endX, endY)) {
@@ -144,7 +148,7 @@ export class Game extends IGame {
 			x, y, attackerIsWhite,
 			[[1, 1], [-1, -1], [-1, 1], [1, -1]],
 			[Bishop, Queen],
-		);
+		)
 
 	}
 
@@ -176,7 +180,7 @@ export class Game extends IGame {
 		let s = ''
 		let m = this.map
 		for (let i = 7; i >= 0; i--) {
-			s += ' +' + '-+'.repeat(8) + '\n'+i+'|'
+			s += ' +' + '-+'.repeat(8) + '\n' + i + '|'
 			for (let j = 0; j < 8; j++) {
 				let p = m[j][i]
 				let letter = ' '
