@@ -14,12 +14,14 @@ export class Knight extends Piece {
 	}
 
 	isCellAccessible (xFrom, yFrom, xTo, yTo) {
+		super.isCellAccessible(xFrom, yFrom, xTo, yTo)
 		// manhattan distance is 3 and not on same line/column
 		return (xFrom !== xTo && yFrom !== yTo) && manhattanDistance(xFrom, yFrom, xTo, yTo) === 3
 	}
 
 	getAccessibleCells (x, y) {
-		if (this.pathes[[x, y]])return this.pathes[[x, y]]
+		if (this.pathes[[x, y]])
+			return this.pathes[[x, y]]
 
 		super.getAccessibleCells(x, y)
 

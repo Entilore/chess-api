@@ -2,12 +2,13 @@ import { describe, it } from 'mocha'
 import { PawnTest } from './Pawn.spec'
 import { KingTest } from './King.spec'
 import { BishopTest } from './Bishop.spec'
+import { KnightTest } from './Knight.spec'
 
 let chai = require('chai')
 chai.should()
 
 describe('The pieces functions', function () {
-	let pieces = [new PawnTest(), new KingTest(), new BishopTest()]
+	let pieces = [new PawnTest(), new KingTest(), new BishopTest(), new KnightTest()]
 	for (let testObj of pieces) {
 		describe(testObj.testedPiece, function () {
 			describe('isCellAccessible', function () {
