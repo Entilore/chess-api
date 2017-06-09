@@ -8,6 +8,7 @@ import { PieceFactory } from '../model/GamePackage/GameImplementation/Piece/Piec
 import { King } from '../model/GamePackage/GameImplementation/Piece/King'
 import { Pawn } from '../model/GamePackage/GameImplementation/Piece/Pawn'
 import { Rook } from '../model/GamePackage/GameImplementation/Piece/Rook'
+import { Bishop } from '../model/GamePackage/GameImplementation/Piece/Bishop'
 let pf = PieceFactory.getInstance()
 
 export class KingTest {
@@ -102,6 +103,14 @@ export class KingTest {
 
 		it('should not accept to do a castling if one of the pieces has moved', function () {
 			// not yet implemented
+		})
+
+		it('should not accept to do a castling if one of the tiles in the king\'s path is under attack', function () {
+			blackPieces.set(pf.createPiece(Bishop, false), [[0, 3]])
+			let game = getGameWithConfiguration(whitePieces, blackPieces)
+			//console.log(game.ascii_art_representation)
+			self.whiteKing.isCellAccessible(xWhiteKing, yWhiteKing, xWhiteKing + 2, yWhiteKing, game).should.be.true
+			self.whiteKing.isCellAccessible(xWhiteKing, yWhiteKing, xWhiteKing - 2, yWhiteKing, game).should.be.false
 		})
 	}
 

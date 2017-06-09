@@ -86,19 +86,29 @@ export class Game extends IGame {
 
 		let activePlayer = this.getPlayer(isWhite)
 
-		let endColumn = 4
+		let kingColumn = 4
 		let line = activePlayer.figureLine
-		let beginColumn
+		let rookColumn
+		let finalKingColumn
 		if (side === Game.QUEEN_SIDE_CASTLING && activePlayer.queenSideCastlingIsPossible) {
-			beginColumn = 0
+			rookColumn = 0
+			finalKingColumn = kingColumn - 2
 		}
 		else if (side === Game.KING_SIDE_CASTLING && activePlayer.kingSideCastlingIsPossible) {
-			beginColumn = 7
+			rookColumn = 7
+			finalKingColumn = kingColumn + 2
 		}
 		else
 			return false
 
-		return !this.isPiecesBetweenTiles(beginColumn, line, endColumn, line)
+		if (!this.isPiecesBetweenTiles(rookColumn, line, kingColumn, line)) {
+			for (let [x,y] of Tile.getTilesBetween(kingColumn, line, finalKingColumn, line)){
+				if (this.isUnderAttack(x,y, !isWhite))
+					return false
+			}
+			return true
+		}
+		return false
 	}
 
 	isPiecesBetweenTiles (xFrom, yFrom, xTo, yTo) {

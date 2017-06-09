@@ -49,7 +49,6 @@ export class RookTest {
 		this.whiteRook.isCellAccessible(4, 3, 3, 4, this.emptyGame).should.be.false
 		this.whiteRook.isCellAccessible(4, 3, 7, 2, this.emptyGame).should.be.false
 
-
 	}
 
 	cellIsOutOfTheBoard () {
@@ -67,14 +66,11 @@ export class RookTest {
 		let blackPieces = new Map([[this.blackRook, [[4, 4]]]])
 		let game = getGameWithConfiguration(whitePieces, blackPieces)
 
-		console.log(game.ascii_art_representation)
-
 		this.whiteRook.isCellAccessible(4, 7, 4, 6, game).should.be.true
 		this.whiteRook.isCellAccessible(4, 7, 4, 5, game).should.be.true
 		this.whiteRook.isCellAccessible(4, 7, 4, 4, game).should.be.true
-	x	this.whiteRook.isCellAccessible(4, 7, 4, 3, game).should.be.false
+		this.whiteRook.isCellAccessible(4, 7, 4, 3, game).should.be.false
 		this.whiteRook.isCellAccessible(4, 7, 4, 2, game).should.be.false
-
 
 		this.whiteRook.isCellAccessible(4, 7, 5, 7, game).should.be.true
 		this.whiteRook.isCellAccessible(4, 7, 6, 7, game).should.be.false

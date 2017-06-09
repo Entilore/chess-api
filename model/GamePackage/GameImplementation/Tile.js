@@ -36,7 +36,7 @@ export class Tile {
 	}
 
 	/**
-	 * generate every tiles between From and To, both excluded
+	 * generate every tiles between From and To
 	 * @param xFrom the X of From
 	 * @param yFrom the Y of From
 	 * @param xTo the X of To
