@@ -3,6 +3,7 @@
  */
 
 import { Piece } from './Piece'
+import { Game } from '../Game'
 
 export class Rook extends Piece {
 	constructor (isWhite) {
@@ -38,6 +39,18 @@ export class Rook extends Piece {
 
 	canAttackTile (x, y, game) {
 		super.canAttackTile(x, y, game)
+
+	}
+
+	static getCastlingColumn(side){
+		let rookColumn
+		if (side === Game.QUEEN_SIDE_CASTLING) {
+			rookColumn = 0
+		}
+		else if (side === Game.KING_SIDE_CASTLING) {
+			rookColumn = 7
+		}
+		return rookColumn
 
 	}
 }

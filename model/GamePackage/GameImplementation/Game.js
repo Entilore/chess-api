@@ -10,6 +10,8 @@ import { Rook } from './Piece/Rook'
 import { Queen } from './Piece/Queen'
 import { Bishop } from './Piece/Bishop'
 import { King } from './Piece/King'
+import { MoveError } from '../errors/GameErrors'
+import { RoundFactory } from './RoundFactory'
 
 export class Game extends IGame {
 	constructor (player1, player2) {
@@ -52,12 +54,55 @@ export class Game extends IGame {
 	get map () {
 		// load saved map, if state !=, rebuild
 		let [map, state] = this._map
-		if (!this.state || this.state !== state) {
+		if (!this.state || !state || this.state !== state) {
 			map = this._build_map()
 			this._map = [map, this.state]
 		}
 
 		return map
+	}
+
+	move (xFrom, yFrom, xTo, yTo) {
+		let piece = this.getPiece(xFrom, yFrom)
+		let owner = this.getPlayer(piece.isWhite)
+
+		owner.move(xFrom, yFrom, xTo, yTo)
+		return piece
+	}
+
+	capture (x, y) {
+		super.capture(x, y)
+		let piece = this.getPiece(x, y)
+		let owner = this.getPiece(piece.isWhite)
+		owner.capture(x, y)
+		return piece
+	}
+
+	uncapture (x, y, piece) {
+		super.uncapture(x, y, piece)
+		let player = this.getPlayer(piece.isWhite)
+		player.setPiece(x, y, piece)
+		return piece
+	}
+
+	isChess (player) {
+		super.isChess(player)
+		let [x, y] = player.kingPosition
+		return this.isUnderAttack(x, y, !player.isWhite)
+	}
+
+	new_round (xFrom, yFrom, xTo, yTo, player) {
+		let piece = this.getPiece(xFrom, yFrom)
+
+		if (!piece.isCellAccessible(xFrom, yFrom, xTo, yTo, player.isWhite)) {
+			throw new MoveError('Move is impossible')
+		}
+
+		let rf = new RoundFactory()
+		rf.setGame(this)
+		rf.setMoved(xFrom, yFrom, xTo, yTo)
+		let round = rf.build()
+		round.apply()
 	}
 
 	/**
@@ -88,22 +133,20 @@ export class Game extends IGame {
 
 		let kingColumn = 4
 		let line = activePlayer.figureLine
-		let rookColumn
+		let rookColumn = Rook.getCastlingColumn(side)
 		let finalKingColumn
 		if (side === Game.QUEEN_SIDE_CASTLING && activePlayer.queenSideCastlingIsPossible) {
-			rookColumn = 0
 			finalKingColumn = kingColumn - 2
 		}
 		else if (side === Game.KING_SIDE_CASTLING && activePlayer.kingSideCastlingIsPossible) {
-			rookColumn = 7
 			finalKingColumn = kingColumn + 2
 		}
 		else
 			return false
 
 		if (!this.isPiecesBetweenTiles(rookColumn, line, kingColumn, line)) {
-			for (let [x,y] of Tile.getTilesBetween(kingColumn, line, finalKingColumn, line)){
-				if (this.isUnderAttack(x,y, !isWhite))
+			for (let [x, y] of Tile.getTilesBetween(kingColumn, line, finalKingColumn, line)) {
+				if (this.isUnderAttack(x, y, !isWhite))
 					return false
 			}
 			return true

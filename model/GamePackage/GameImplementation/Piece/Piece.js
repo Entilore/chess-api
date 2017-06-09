@@ -2,7 +2,7 @@
  * Created by thareau on 28/05/17.
  */
 
-import { assertInstanceOf, isInMap } from '../../../../util/general'
+import { assertInstanceOf, assertIsTile, isInMap } from '../../../../util/general'
 import { IPiece } from '../../IPiece'
 import { NotOnBoardError } from '../../errors/GameErrors'
 
@@ -106,6 +106,12 @@ class Piece extends IPiece {
 		return (theoretically && pathUsable) || specialCase
 	}
 
+	otherMovedPieceImplied (xFrom, yFrom, xTo, yTo) {
+		assertIsTile(xFrom, yFrom)
+		assertIsTile(xTo, yTo)
+		return undefined
+	}
+
 	/**
 	 * determine if any instance of the current piece can attack the given tile
 	 * @param x
@@ -125,7 +131,6 @@ class Piece extends IPiece {
 			let [i, j] = f(i, j)
 		}
 	}
-
 
 }
 

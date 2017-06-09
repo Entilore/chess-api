@@ -18,4 +18,12 @@ class NotOnBoardError extends Error {
 		this.name = 'NotOnBoardError';
 	}
 }
-export {GameConstructionError, NotOnBoardError};
+
+class MoveError extends  Error{
+	constructor(message) {
+		super(message);
+		this.message = message;
+		this.name = 'MoveError';
+	}
+}
+export {GameConstructionError, NotOnBoardError, MoveError};

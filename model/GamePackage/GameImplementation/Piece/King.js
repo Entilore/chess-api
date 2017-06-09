@@ -6,6 +6,7 @@ import { isInMap } from '../../../../util/general'
 import { adjacentDistance } from '../../../../util/map'
 import { Piece } from './Piece'
 import { Game } from '../Game'
+import { Rook } from './Rook'
 
 export class King extends Piece {
 	constructor (isWhite) {
@@ -18,9 +19,16 @@ export class King extends Piece {
 	}
 
 	isTileSpeciallyAccessible (xFrom, yFrom, xTo, yTo, game) {
-		if (this.isInitialCell(xFrom, yFrom) && yTo === this._figureLine) {
-			// queen side castling
-			let side = -1
+		let side = this.getCastlingSide(xFrom, yFrom, xTo, yTo)
+		if (side !== undefined) {
+			return game.isCastlingPossible(this.isWhite, side)
+		}
+		return false
+	}
+
+	getCastlingSide (xFrom, yFrom, xTo, yTo) {
+		let side
+		if (this.isInitialCell(xFrom, yFrom) && yTo === this._figureLine && (xTo === 6 || xTo === 2)) {
 			if (xTo === 2) {
 				side = Game.QUEEN_SIDE_CASTLING
 			}
@@ -28,12 +36,17 @@ export class King extends Piece {
 				// king side castling
 				side = Game.KING_SIDE_CASTLING
 			}
-
-			if (side !== -1) {
-				return game.isCastlingPossible(this.isWhite, side)
-			}
 		}
-		return false
+		return side
+	}
+
+	otherMovedPieceImplied (xFrom, yFrom, xTo, yTo, game) {
+		super.otherMovedPieceImplied(xFrom, yFrom, xTo, yTo)
+		const side = this.getCastlingSide(xFrom, yFrom, xTo, yTo)
+		if (side !== undefined) {
+			return [xTo, yTo, Rook.getCastlingColumn(side), yTo, this]
+		}
+		return undefined
 	}
 
 	* getInitialPosition () {

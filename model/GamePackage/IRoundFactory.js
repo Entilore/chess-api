@@ -1,18 +1,22 @@
 /**
  * Created by thareau on 28/05/17.
  */
-import {assertInstanceOf} from '../../util/general';
+import { assertInstanceOf, assertIsTile } from '../../util/general'
 import {IGame} from './IGame';
-class IRoundFactory{
+export class IRoundFactory{
 	constructor(){
-		this.moved = [];
 	}
 
-	setMoved(p){
-		assertInstanceOf(p, IPiece);
+	setMoved(xFrom, yFrom, xTo, yTo){
+		assertIsTile(xFrom, yFrom)
+		assertIsTile(xTo, yTo)
 	}
 
 	setGame(game){
 		assertInstanceOf(game, IGame);
+	}
+
+	build(){
+
 	}
 }
