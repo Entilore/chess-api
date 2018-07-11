@@ -91,7 +91,8 @@ export class Game extends IGame {
 		return this.isUnderAttack(x, y, !player.isWhite)
 	}
 
-	new_round (xFrom, yFrom, xTo, yTo, player) {
+	newRound (xFrom, yFrom, xTo, yTo, player) {
+		super.newRound(xFrom, yFrom, xTo, yTo, player)
 		let piece = this.getPiece(xFrom, yFrom)
 
 		if (!piece.isCellAccessible(xFrom, yFrom, xTo, yTo, player.isWhite)) {

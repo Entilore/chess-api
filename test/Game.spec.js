@@ -3,13 +3,14 @@
  */
 import { describe, it } from 'mocha'
 import { getGameWithConfiguration } from './testUtility.spec'
-import { PieceFactory } from '../model/GamePackage/GameImplementation/Piece/Piece'
+import { PieceFactory as PieceFactory } from '../model/GamePackage/GameImplementation/Piece/Piece'
 import { Pawn } from '../model/GamePackage/GameImplementation/Piece/Pawn'
 import { Queen } from '../model/GamePackage/GameImplementation/Piece/Queen'
 import { Knight } from '../model/GamePackage/GameImplementation/Piece/Knight'
 import { Rook } from '../model/GamePackage/GameImplementation/Piece/Rook'
 import { Bishop } from '../model/GamePackage/GameImplementation/Piece/Bishop'
 import { King } from '../model/GamePackage/GameImplementation/Piece/King'
+import * as GameFactory from '../model/GamePackage/GameFactory'
 
 let chai = require('chai')
 chai.should()
@@ -107,5 +108,15 @@ describe('The game classes', () => {
 			game.isUnderAttack(3, 2, false).should.be.false
 		})
 
+	})
+
+	describe('newRound function', () => {
+		GameFactory.addPlayer('Player 1')
+		GameFactory.addPlayer('Player 2')
+		let game = GameFactory.createGame()
+		console.log(game.ascii_art_representation)
+		it('should accept simple moves', () => {
+			game.newRound(0, 1, 0, 2, true)
+		})
 	})
 })

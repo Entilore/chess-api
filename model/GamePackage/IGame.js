@@ -46,6 +46,12 @@ export class IGame {
 	isChess (player) {
 		assertInstanceOf(player, IPlayer)
 	}
+
+	newRound(xFrom, yFrom, xTo, yTo, player){
+		assertIsTile(xFrom, yFrom)
+		assertIsTile(xTo, yTo)
+		assertInstanceOf(player, IPlayer)
+	}
 }
 
 

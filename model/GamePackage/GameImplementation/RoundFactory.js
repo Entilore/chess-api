@@ -2,6 +2,7 @@
  * Created by thareau on 09/06/17.
  */
 import { IRoundFactory } from '../IRoundFactory'
+import { Round } from './Round'
 
 const roundClass = Round
 
